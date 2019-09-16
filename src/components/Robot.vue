@@ -4,12 +4,12 @@
       <v-row>
         <v-col class="d-flex child-flex" :cols="showPassword ? 6 : 12">
           <v-card flat tile class="d-flex">
-            <v-img :src="`/images/robots/${robot.id}/${robot.id}.jpg`" :height="height" contain></v-img>
+            <v-img :src="`images/robots/${robot.id}/${robot.id}.jpg`" :height="height" contain></v-img>
           </v-card>
         </v-col>
         <v-col v-if="showPassword" class="d-flex child-flex" cols="6">
           <v-card flat tile class="d-flex">
-            <v-img :src="`/images/robots/${robot.id}/password.jpg`" :height="height" contain></v-img>
+            <v-img :src="`images/robots/${robot.id}/password.jpg`" :height="height" contain></v-img>
           </v-card>
         </v-col>
         <v-col class="d-flex child-flex" cols="4">

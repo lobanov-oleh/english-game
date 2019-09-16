@@ -13,7 +13,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-img v-if="!gameInProcess" src="/images/app.jpg"></v-img>
+      <v-img v-if="!gameInProcess" src="images/app.jpg"></v-img>
 
       <v-row v-if="!!gameRobots.length">
         <v-col cols="12">
@@ -60,7 +60,7 @@
             <v-expansion-panel>
               <v-expansion-panel-header>Increase initative (write the password first letter)</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-img :src="`/images/english uppercase.jpg`"></v-img>
+                <v-img :src="`images/english uppercase.jpg`"></v-img>
                 <v-btn @click="robot.i++" class="mt-5">Increase initiative</v-btn>
               </v-expansion-panel-content>
             </v-expansion-panel>
