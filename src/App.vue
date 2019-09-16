@@ -23,12 +23,18 @@
             <v-container fluid>
               <v-row>
                 <v-col v-for="r in gameRobots" :key="r.id" class="d-flex child-flex" cols="4">
-                  <v-card flat tile class="d-flex">
+                  <v-card flat tile>
                     <v-img
                       :src="`/images/robots/${r.id}/${r.id}.jpg`"
                       contain
+                      height="300"
                       @click="showRobot(r)"
                     ></v-img>
+                    <v-card-text>
+                      <h3>Initiative: {{ r.i }}</h3>
+                      <h3>Attack: {{ r.a }}</h3>
+                      <h3>Shield: {{ r.s }}</h3>
+                    </v-card-text>
                   </v-card>
                 </v-col>
               </v-row>
@@ -62,6 +68,15 @@
                 >
                   <v-alert type="success">Ready for battle!</v-alert>
                 </v-col>
+                <v-col cols="3">
+                  <h3>Initiative: {{ r.i }}</h3>
+                </v-col>
+                <v-col cols="3">
+                  <h3>Attack: {{ r.a }}</h3>
+                </v-col>
+                <v-col cols="3">
+                  <h3>Shield: {{ r.s }}</h3>
+                </v-col>
               </v-row>
             </v-container>
           </v-card>
@@ -91,6 +106,15 @@
                 >
                   <v-alert type="success">Ready for battle!</v-alert>
                 </v-col>
+                <v-col cols="3">
+                  <h3>Initiative: {{ r.i }}</h3>
+                </v-col>
+                <v-col cols="3">
+                  <h3>Attack: {{ r.a }}</h3>
+                </v-col>
+                <v-col cols="3">
+                  <h3>Shield: {{ r.s }}</h3>
+                </v-col>
               </v-row>
             </v-container>
           </v-card>
@@ -112,6 +136,15 @@
                 <v-img :src="`/images/robots/${robot.id}/password.jpg`" height="300" contain></v-img>
               </v-card>
             </v-col>
+            <v-col class="d-flex child-flex" cols="4">
+              <h3>Initiative: {{ robot.i }}</h3>
+            </v-col>
+            <v-col class="d-flex child-flex" cols="4">
+              <h3>Attack: {{ robot.a }}</h3>
+            </v-col>
+            <v-col class="d-flex child-flex" cols="4">
+              <h3>Shield: {{ robot.s }}</h3>
+            </v-col>
           </v-row>
         </v-card-text>
 
@@ -121,7 +154,7 @@
           <v-btn color="primary" text @click="toDefender">To defender</v-btn>
           <v-btn color="primary" text @click="toAttacker">To attacker</v-btn>
           <div class="flex-grow-1"></div>
-          <v-btn color="primary" text @click="robotDialog = false">Close</v-btn>
+          <v-btn color="primary" text @click="toDeactivate">Deactivate</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -146,6 +179,24 @@
                   height="300"
                   contain
                 ></v-img>
+              </v-card>
+            </v-col>
+            <v-col class="d-flex child-flex" cols="6">
+              <v-card flat tile class="d-flex">
+                <v-card-text>
+                  <h3>Initiative: {{ battleDefenderRobot.i }}</h3>
+                  <h3>Attack: {{ battleDefenderRobot.a }}</h3>
+                  <h3>Shield: {{ battleDefenderRobot.s }}</h3>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col class="d-flex child-flex" cols="6">
+              <v-card flat tile class="d-flex">
+                <v-card-text>
+                  <h3>Initiative: {{ battleAttackerRobot.i }}</h3>
+                  <h3>Attack: {{ battleAttackerRobot.a }}</h3>
+                  <h3>Shield: {{ battleAttackerRobot.s }}</h3>
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -210,6 +261,12 @@ export default {
     },
     toAttacker: function() {
       this.attackerAddRobot(this.robot);
+      this.gameDelRobot(this.robot.id);
+
+      this.robotDialog = false;
+      this.robot = null;
+    },
+    toDeactivate: function() {
       this.gameDelRobot(this.robot.id);
 
       this.robotDialog = false;
