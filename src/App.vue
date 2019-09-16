@@ -19,133 +19,36 @@
 
       <v-row v-if="!!gameRobots.length">
         <v-col cols="12">
-          <v-card>
-            <v-container fluid>
-              <v-row>
-                <v-col v-for="r in gameRobots" :key="r.id" class="d-flex child-flex" cols="4">
-                  <v-card flat tile>
-                    <v-img
-                      :src="`/images/robots/${r.id}/${r.id}.jpg`"
-                      contain
-                      height="300"
-                      @click="showRobot(r)"
-                    ></v-img>
-                    <v-card-text>
-                      <h3>Initiative: {{ r.i }}</h3>
-                      <h3>Attack: {{ r.a }}</h3>
-                      <h3>Shield: {{ r.s }}</h3>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
+          <v-container fluid>
+            <v-row>
+              <v-col
+                v-for="r in gameRobots"
+                :key="r.id"
+                class="d-flex child-flex"
+                cols="4"
+                @click="showRobot(r)"
+              >
+                <robot-component :robot="r" :showPassword="false" :height="200"></robot-component>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-col>
       </v-row>
 
       <v-row v-if="!!defenderRobots.length || !!attackerRobots.length">
         <v-col v-if="!!defenderRobots.length" cols="6">
-          <v-card>
-            <v-card-title>
-              <h2>Defender</h2>
-            </v-card-title>
-            <v-container fluid>
-              <v-row v-for="r in defenderRobots" :key="r.id">
-                <v-col class="d-flex child-flex" cols="6">
-                  <v-card flat tile class="d-flex" @click="battleDefenderRobot = r">
-                    <v-img :src="`/images/robots/${r.id}/${r.id}.jpg`" height="100" contain></v-img>
-                  </v-card>
-                </v-col>
-                <v-col class="d-flex child-flex" cols="6">
-                  <v-card flat tile class="d-flex">
-                    <v-img :src="`/images/robots/${r.id}/password.jpg`" height="100" contain></v-img>
-                  </v-card>
-                </v-col>
-                <v-col
-                  v-if="battleDefenderRobot && r.id === battleDefenderRobot.id"
-                  class="d-flex child-flex"
-                  cols="12"
-                >
-                  <v-alert type="success">Ready for battle!</v-alert>
-                </v-col>
-                <v-col cols="3">
-                  <h3>Initiative: {{ r.i }}</h3>
-                </v-col>
-                <v-col cols="3">
-                  <h3>Attack: {{ r.a }}</h3>
-                </v-col>
-                <v-col cols="3">
-                  <h3>Shield: {{ r.s }}</h3>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
+          <player-robots-component who="defender"></player-robots-component>
         </v-col>
-
         <v-col v-if="!!attackerRobots.length" cols="6">
-          <v-card>
-            <v-card-title>
-              <h2>Attacker</h2>
-            </v-card-title>
-            <v-container fluid>
-              <v-row v-for="r in attackerRobots" :key="r.id">
-                <v-col class="d-flex child-flex" cols="6">
-                  <v-card flat tile class="d-flex" @click="battleAttackerRobot = r">
-                    <v-img :src="`/images/robots/${r.id}/${r.id}.jpg`" height="100" contain></v-img>
-                  </v-card>
-                </v-col>
-                <v-col class="d-flex child-flex" cols="6">
-                  <v-card flat tile class="d-flex">
-                    <v-img :src="`/images/robots/${r.id}/password.jpg`" height="100" contain></v-img>
-                  </v-card>
-                </v-col>
-                <v-col
-                  v-if="battleAttackerRobot && r.id === battleAttackerRobot.id"
-                  class="d-flex child-flex"
-                  cols="12"
-                >
-                  <v-alert type="success">Ready for battle!</v-alert>
-                </v-col>
-                <v-col cols="3">
-                  <h3>Initiative: {{ r.i }}</h3>
-                </v-col>
-                <v-col cols="3">
-                  <h3>Attack: {{ r.a }}</h3>
-                </v-col>
-                <v-col cols="3">
-                  <h3>Shield: {{ r.s }}</h3>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
+          <player-robots-component who="attacker"></player-robots-component>
         </v-col>
       </v-row>
     </v-content>
 
     <v-dialog v-model="robotDialog" width="500">
       <v-card v-if="!!robot">
-        <v-card-text>
-          <v-row>
-            <v-col class="d-flex child-flex" cols="6">
-              <v-card flat tile class="d-flex">
-                <v-img :src="`/images/robots/${robot.id}/${robot.id}.jpg`" height="300" contain></v-img>
-              </v-card>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="6">
-              <v-card flat tile class="d-flex">
-                <v-img :src="`/images/robots/${robot.id}/password.jpg`" height="300" contain></v-img>
-              </v-card>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="4">
-              <h3>Initiative: {{ robot.i }}</h3>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="4">
-              <h3>Attack: {{ robot.a }}</h3>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="4">
-              <h3>Shield: {{ robot.s }}</h3>
-            </v-col>
-          </v-row>
+        <v-card-text class="pt-5">
+          <robot-component :robot="robot"></robot-component>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -164,40 +67,10 @@
         <v-card-text>
           <v-row>
             <v-col class="d-flex child-flex" cols="6">
-              <v-card flat tile class="d-flex">
-                <v-img
-                  :src="`/images/robots/${battleDefenderRobot.id}/${battleDefenderRobot.id}.jpg`"
-                  height="300"
-                  contain
-                ></v-img>
-              </v-card>
+              <robot-component :robot="battleDefenderRobot" :showPassword="false"></robot-component>
             </v-col>
             <v-col class="d-flex child-flex" cols="6">
-              <v-card flat tile class="d-flex">
-                <v-img
-                  :src="`/images/robots/${battleAttackerRobot.id}/${battleAttackerRobot.id}.jpg`"
-                  height="300"
-                  contain
-                ></v-img>
-              </v-card>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="6">
-              <v-card flat tile class="d-flex">
-                <v-card-text>
-                  <h3>Initiative: {{ battleDefenderRobot.i }}</h3>
-                  <h3>Attack: {{ battleDefenderRobot.a }}</h3>
-                  <h3>Shield: {{ battleDefenderRobot.s }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="6">
-              <v-card flat tile class="d-flex">
-                <v-card-text>
-                  <h3>Initiative: {{ battleAttackerRobot.i }}</h3>
-                  <h3>Attack: {{ battleAttackerRobot.a }}</h3>
-                  <h3>Shield: {{ battleAttackerRobot.s }}</h3>
-                </v-card-text>
-              </v-card>
+              <robot-component :robot="battleAttackerRobot" :showPassword="false"></robot-component>
             </v-col>
           </v-row>
         </v-card-text>
@@ -216,6 +89,8 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import PlayerRobotsComponent from "./components/PlayerRobots";
+import RobotComponent from "./components/Robot";
 
 export default {
   name: "App",
@@ -223,16 +98,16 @@ export default {
     return {
       robotDialog: false,
       robot: null,
-      battleDialog: false,
-      battleDefenderRobot: false,
-      battleAttackerRobot: false
+      battleDialog: false
     };
   },
   computed: mapState({
     gameInProcess: state => state.game.inProcess,
     gameRobots: state => state.game.robots,
     defenderRobots: state => state.players.defenderRobots,
-    attackerRobots: state => state.players.attackerRobots
+    attackerRobots: state => state.players.attackerRobots,
+    battleDefenderRobot: state => state.battle.defenderRobot,
+    battleAttackerRobot: state => state.battle.attackerRobot
   }),
   methods: {
     ...mapActions({
@@ -242,7 +117,8 @@ export default {
       defenderAddRobot: "players/addDefenderRobot",
       defenderDelRobot: "players/delDefenderRobot",
       attackerAddRobot: "players/addAttackerRobot",
-      attackerDelRobot: "players/delAttackerRobot"
+      attackerDelRobot: "players/delAttackerRobot",
+      battleSet: "battle/set"
     }),
     start: function() {
       this.gameStart();
@@ -280,15 +156,19 @@ export default {
     winDefender: function() {
       this.attackerDelRobot(this.battleAttackerRobot.id);
       this.battleDialog = false;
-      this.battleDefenderRobot = false;
-      this.battleAttackerRobot = false;
+      this.battleSet({ who: "defender", robot: false });
+      this.battleSet({ who: "attacker", robot: false });
     },
     winAttacker: function() {
       this.defenderDelRobot(this.battleDefenderRobot.id);
       this.battleDialog = false;
-      this.battleDefenderRobot = false;
-      this.battleAttackerRobot = false;
+      this.battleSet({ who: "defender", robot: false });
+      this.battleSet({ who: "attacker", robot: false });
     }
+  },
+  components: {
+    "player-robots-component": PlayerRobotsComponent,
+    "robot-component": RobotComponent
   }
 };
 </script>

@@ -12,6 +12,7 @@ import j from './j'
 export default {
     a,
     b,
+    /*
     c,
     d,
     e,
@@ -20,4 +21,5 @@ export default {
     h,
     i,
     j
+    */
 }
