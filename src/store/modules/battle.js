@@ -11,6 +11,11 @@ const getters = {
 const actions = {
   set({ commit }, { who, robot }) {
     commit(who + 'Robot', robot)
+  },
+  decrease({ state, commit }, { who, what }) {
+    const robot = state[who + 'Robot']
+    robot[what]--
+    commit(who + 'Robot', robot)
   }
 }
 

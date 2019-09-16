@@ -107,6 +107,12 @@
             <v-col class="d-flex child-flex" cols="6">
               <robot-component :robot="battleAttackerRobot" :showPassword="false"></robot-component>
             </v-col>
+            <v-col class="d-flex child-flex" cols="6">
+              <v-btn @click="battleDecrease({ who: 'defender', what: 's' })" class="mt-5">Decrease shield</v-btn>
+            </v-col>
+            <v-col class="d-flex child-flex" cols="6">
+              <v-btn @click="battleDecrease({ who: 'attacker', what: 's' })" class="mt-5">Decrease shield</v-btn>
+            </v-col>
           </v-row>
         </v-card-text>
 
@@ -153,7 +159,8 @@ export default {
       defenderDelRobot: "players/delDefenderRobot",
       attackerAddRobot: "players/addAttackerRobot",
       attackerDelRobot: "players/delAttackerRobot",
-      battleSet: "battle/set"
+      battleSet: "battle/set",
+      battleDecrease: "battle/decrease"
     }),
     start: function() {
       this.gameStart();
