@@ -6,11 +6,9 @@
         <span class="font-weight-light">ROBOTS BATTLE</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn v-if="!gameInProcess" text @click="start">
-        <span class="mr-2">Start!</span>
-      </v-btn>
-      <v-btn v-if="gameInProcess" text @click="battle">
-        <span class="mr-2">Battle!</span>
+      <v-btn text @click="start">
+        <span v-if="gameInProcess" class="mr-2">Restart</span>
+        <span v-if="!gameInProcess" class="mr-2">Start!</span>
       </v-btn>
     </v-app-bar>
 
@@ -45,10 +43,42 @@
       </v-row>
     </v-content>
 
-    <v-dialog v-model="robotDialog" width="500">
+    <v-dialog v-model="robotDialog" width="500" hide-overlay fullscreen>
       <v-card v-if="!!robot">
         <v-card-text class="pt-5">
           <robot-component :robot="robot"></robot-component>
+        </v-card-text>
+
+        <v-card-text>
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-header>Activating (say the password)</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-btn :href="robotPasswordHref(robot)" target="_blank">Test activating</v-btn>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>Increase initative (write the password first letter)</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-img :src="`/images/english uppercase.jpg`"></v-img>
+                <v-btn @click="robot.i++" class="mt-5">Increase initiative</v-btn>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>Increase attack (write the password)</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <h2>{{ robot.password }}</h2>
+                <v-btn @click="robot.a++" class="mt-5">Increase attack</v-btn>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>Increase shield (write a sentence with the password)</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <h2>{{ robot.password }}</h2>
+                <v-btn @click="robot.s++" class="mt-5">Increase shield</v-btn>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -62,7 +92,12 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="battleDialog" width="500">
+    <v-dialog
+      :value="battleDefenderRobot && battleAttackerRobot"
+      width="500"
+      hide-overlay
+      fullscreen
+    >
       <v-card v-if="battleDefenderRobot && battleAttackerRobot">
         <v-card-text>
           <v-row>
@@ -164,6 +199,18 @@ export default {
       this.battleDialog = false;
       this.battleSet({ who: "defender", robot: false });
       this.battleSet({ who: "attacker", robot: false });
+    },
+    robotPasswordHref: function(robot) {
+      return (
+        `https://translate.google.com/`
+        + `#view=home`
+        + `&op=translate`
+        + `&sl=en&tl=ru`
+        + `&text=` + encodeURIComponent(robot.password)
+      );
+    },
+    increaseAttack: function(robot) {
+      robot.a++
     }
   },
   components: {
